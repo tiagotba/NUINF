@@ -11,6 +11,7 @@ namespace NUINFDAO.INTERFACES
         int Salvar(Pessoa pPessoa);
         IEnumerable<Pessoa> ListarTodos();
         int Editar(Pessoa pPessoa);
+        bool Excluir(int idPessoa);
         Pessoa Pesquisar(Pessoa pPessoa);
     }
 }

@@ -32,6 +32,23 @@ namespace NUINFDAO.DAO
            
         }
 
+        public bool Excluir(int idPessoa)
+        {
+            bool result = false;
+            Pessoa lPessoa = new Pessoa();
+            lPessoa.id = idPessoa;
+
+            var pessoa = Pesquisar(lPessoa);
+
+            if (pessoa!= null)
+            {
+                _nuinf_Context.Pessoas.Remove(pessoa);
+                result = true;
+            }
+
+            return result;
+        }
+
         public IEnumerable<Pessoa> ListarTodos()
         {
             var pessoas = _nuinf_Context.Pessoas;

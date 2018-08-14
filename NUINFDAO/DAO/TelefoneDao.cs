@@ -30,6 +30,23 @@ namespace NUINFDAO.DAO
             }
         }
 
+        public bool Excluir(int idTel)
+        {
+            bool result = false;
+            Telefone lTel = new Telefone();
+            lTel.id = idTel;
+
+            var telefone = Pesquisar(lTel);
+
+            if (telefone != null)
+            {
+                _nuinf_Context.Telefones.Remove(telefone);
+                result = true;
+            }
+
+            return result;
+        }
+
         public IEnumerable<Telefone> ListarTodos()
         {
             var telefones = _nuinf_Context.Telefones;

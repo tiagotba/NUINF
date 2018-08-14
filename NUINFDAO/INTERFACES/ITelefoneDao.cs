@@ -11,6 +11,7 @@ namespace NUINFDAO.INTERFACES
         int Salvar(Telefone pTelefone);
         IEnumerable<Telefone> ListarTodos();
         int Editar(Telefone pTelefone);
+        bool Excluir(int idTel);
         Telefone Pesquisar(Telefone pTelefone);
     }
 }
