@@ -14,10 +14,11 @@ namespace NUINFDAO.DOMINIOMAP
         {
             builder.HasKey(p=>p.id);
             builder.Property(p => p.nome).HasColumnName("NOM_PESSOA").HasMaxLength(500).IsRequired();
-            builder.Property(p => p.dataNascimento).HasColumnName("DT_NASCIMENTO");
+            builder.Property(p => p.dataNascimento).HasColumnName("DT_NASCIMENTO").HasColumnType("Date").IsRequired();
             builder.Property(p => p.cpf).HasColumnName("CPF_PESSOA").IsRequired();
+            builder.Property(p => p.email).HasColumnName("EMAIL_PESSOA").HasMaxLength(100);
             builder.HasMany(p => p.telefones);
-            builder.ToTable("TB_PESSOA", "BD_Nuinf_Context");
+            builder.ToTable("TB_PESSOA", "BD_Nuinf");
 
         }
     }

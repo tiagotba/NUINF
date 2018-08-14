@@ -1,4 +1,5 @@
 ﻿using NUINFDAO.DOMINIOMAP;
+using NUINFDOMINIO;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,9 +8,9 @@ namespace NUINFDAO.INTERFACES
 {
   public  interface IPessoaDao
     {
-        bool Salvar(PessoaMap pPessoa);
-        IEnumerable<PessoaMap> ListarTodos();
-        void Editar(PessoaMap pPessoa);
-        PessoaMap Pesquisar(PessoaMap pPessoa);
+        int Salvar(Pessoa pPessoa);
+        IEnumerable<Pessoa> ListarTodos();
+        int Editar(Pessoa pPessoa);
+        Pessoa Pesquisar(Pessoa pPessoa);
     }
 }

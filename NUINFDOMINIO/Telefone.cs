@@ -4,8 +4,7 @@ using System.Text;
 
 namespace NUINFDOMINIO
 {
-    // Classe POCO representando telefones das pessoas
-    public class Telefone
+   public class Telefone
     {
         public long id { get; set; }
         public string ddd { get; set; }

@@ -9,7 +9,12 @@ namespace NUINFDAO.CONTEXTOS
 {
     public class BD_Nuinf_Context : DbContext
     {
-   
+        public BD_Nuinf_Context ()
+        { }
+
+        public BD_Nuinf_Context(DbContextOptions<BD_Nuinf_Context> opcoes)
+            :base(opcoes)
+        { }
 
         public DbSet<Pessoa> Pessoas { get; set; }
 
@@ -25,7 +30,7 @@ namespace NUINFDAO.CONTEXTOS
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+          //  base.OnModelCreating(modelBuilder);
             modelBuilder.ForSqlServerUseIdentityColumns();
             modelBuilder.ApplyConfiguration(new PessoaMap());
             modelBuilder.ApplyConfiguration(new TelefoneMap());
