@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NUINFDAO.CONTEXTOS;
 
 namespace NUINFDAO.Migrations
 {
     [DbContext(typeof(BD_Nuinf_Context))]
-    partial class BD_Nuinf_ContextModelSnapshot : ModelSnapshot
+    [Migration("20180814135735_NUINFV6")]
+    partial class NUINFV6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,13 +1,15 @@
 ﻿using NUINFDAO.CONTEXTOS;
 using NUINFDAO.DAO;
 using NUINFDOMINIO;
+using NUINFREPOSITORIO.DTO;
+using NUINFREPOSITORIO.InfraEstrutura;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace NUINFREPOSITORIO.Repositorios
 {
-    public class PessoaRepositorio
+    public class PessoaRepositorio : IPessoaRepositorio
     {
         private PessoaDao dao;
 
@@ -18,14 +20,10 @@ namespace NUINFREPOSITORIO.Repositorios
             dao = new PessoaDao(_nuinf_Context);
         }
 
-        public IEnumerable<Pessoa> ListarTodos()
-        {
-            return dao.ListarTodos();
-        }
 
-        public int Editar(Pessoa pPessoa)
+        public int Editar(PessoaDTOPersistencia pPessoa)
         {
-            if (pPessoa == null || pPessoa.id == 0)
+            if (pPessoa == null || pPessoa.codPessoa == "0")
             {
                 throw new Exception("Pessoa não encontrada!");
             }
@@ -47,16 +45,60 @@ namespace NUINFREPOSITORIO.Repositorios
             }
         }
 
-        public int Salvar(Pessoa pPessoa)
+        public int Salvar(PessoaDTOPersistencia pPessoa)
         {
-            if (pPessoa.id == 0)
+            Pessoa lPessoa = new Pessoa();
+
+            if (pPessoa.codPessoa != null && Convert.ToInt64(pPessoa.codPessoa) > 0)
             {
-                return dao.Salvar(pPessoa);
+                lPessoa.nome = pPessoa.nomePessoa;
+                lPessoa.cpf = pPessoa.cpfPessoa;
+                lPessoa.dataNascimento = Convert.ToDateTime(pPessoa.nascPessoa);
+                lPessoa.email = pPessoa.emailPessoa;
+
+                return dao.Salvar(lPessoa);
             }
             else
             {
-                return dao.Editar(pPessoa);
+                lPessoa.id = Convert.ToInt32(pPessoa.codPessoa);
+                lPessoa.nome = pPessoa.nomePessoa;
+                lPessoa.cpf = pPessoa.cpfPessoa;
+                lPessoa.dataNascimento = Convert.ToDateTime(pPessoa.nascPessoa);
+                lPessoa.email = pPessoa.emailPessoa;
+
+                return dao.Editar(lPessoa);
             }
         }
+
+
+        IEnumerable<PessoasDTOList> IPessoaRepositorio.ListarTodos()
+        {
+            PessoasDTOList lPessoa = new PessoasDTOList();
+            List<PessoasDTOList> lListPessoas = new List<PessoasDTOList>();
+            var pessoas = dao.ListarTodos();
+            foreach (var p in pessoas)
+            {
+                lPessoa.codPessoa = p.id.ToString();
+                lPessoa.nomePessoa = p.nome;
+                lPessoa.emailPessoa = p.email;
+                lPessoa.cpfPessoa = p.cpf;
+                var hoje = DateTime.Today;
+
+                // calculo da idade da pessoa
+                var a = (hoje.Year * 100 + hoje.Month) * 100 + hoje.Day;
+                var b = (p.dataNascimento.Year * 100 + p.dataNascimento.Month) * 100 + p.dataNascimento.Day;
+
+                lPessoa.idadePessoa = ((a - b) / 10000).ToString();
+                lListPessoas.Add(lPessoa);
+            }
+
+            return lListPessoas;
+        }
+
+        public PessoaDTOShow Pesquisar(PessoaDTOPersistencia pPessoa)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

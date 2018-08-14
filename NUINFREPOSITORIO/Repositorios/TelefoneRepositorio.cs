@@ -1,13 +1,15 @@
 ﻿using NUINFDAO.CONTEXTOS;
 using NUINFDAO.DAO;
 using NUINFDOMINIO;
+using NUINFREPOSITORIO.DTO;
+using NUINFREPOSITORIO.InfraEstrutura;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace NUINFREPOSITORIO.Repositorios
 {
- public class TelefoneRepositorio
+    public class TelefoneRepositorio : ITelefoneRepositorio
     {
         private TelefoneDao dao;
         private readonly BD_Nuinf_Context _nuinf_Context;
@@ -18,14 +20,26 @@ namespace NUINFREPOSITORIO.Repositorios
         }
 
 
-        public IEnumerable<Telefone> ListarTodos()
+        public IEnumerable<TelefoneDTOList> ListarTodos()
         {
-            return dao.ListarTodos();
+            TelefoneDTOList lTel = new TelefoneDTOList();
+            List<TelefoneDTOList> lListTels = new List<TelefoneDTOList>();
+            var telefones = dao.ListarTodos();
+
+            foreach (var t in telefones)
+            {
+                lTel.codTel = t.id.ToString();
+                lTel.dddTel = t.ddd;
+                lTel.numTel = t.numeros;
+                lListTels.Add(lTel);
+            }
+
+            return lListTels;
         }
 
-        public int Editar(Telefone pTel)
+        public int Editar(TelefoneDTOPersistencia pTel)
         {
-            if (pTel == null || pTel.id == 0)
+            if (pTel == null || pTel.codTel == "0")
             {
                 throw new Exception("Número não encontrado!");
             }
@@ -47,15 +61,28 @@ namespace NUINFREPOSITORIO.Repositorios
             }
         }
 
-        public int Salvar(Telefone pTel)
+        public int Salvar(TelefoneDTOPersistencia pTel)
         {
-            if (pTel.id == 0)
+            Telefone lTelefone = new Telefone();
+
+            if (pTel.codTel != null && Convert.ToInt64(pTel.codTel) > 0)
             {
-                return dao.Salvar(pTel);
+                lTelefone.ddd = pTel.dddTel;
+                lTelefone.numeros = pTel.numTel;
+                lTelefone.Pessoa = new Pessoa();
+                lTelefone.Pessoa.id = Convert.ToInt32(pTel.codPessoa);
+
+                return dao.Salvar(lTelefone);
             }
             else
             {
-                return dao.Editar(pTel);
+                lTelefone.id = Convert.ToInt32(pTel.codTel);
+                lTelefone.ddd = pTel.dddTel;
+                lTelefone.numeros = pTel.numTel;
+                lTelefone.Pessoa = new Pessoa();
+                lTelefone.Pessoa.id = Convert.ToInt32(pTel.codPessoa);
+
+                return dao.Editar(lTelefone);
             }
         }
     }
