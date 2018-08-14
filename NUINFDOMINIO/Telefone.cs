@@ -10,10 +10,7 @@ namespace NUINFDOMINIO
         public long id { get; set; }
         public string ddd { get; set; }
         public string numeros { get; set; }
-        public string TelefoneCompleto()
-        {
-            return ddd + " " + numeros;
-        }
+
         public virtual Pessoa Pessoa { get; set; }
     }
 }
