@@ -70,7 +70,7 @@ namespace NUINFREPOSITORIO.Repositorios
                 lTelefone.ddd = pTel.dddTel;
                 lTelefone.numeros = pTel.numTel;
                 lTelefone.Pessoa = new Pessoa();
-                lTelefone.Pessoa.id = Convert.ToInt32(pTel.codPessoa);
+               // lTelefone.Pessoa.id = Convert.ToInt32(pTel.codPessoa);
 
                 return dao.Salvar(lTelefone);
             }
@@ -80,7 +80,7 @@ namespace NUINFREPOSITORIO.Repositorios
                 lTelefone.ddd = pTel.dddTel;
                 lTelefone.numeros = pTel.numTel;
                 lTelefone.Pessoa = new Pessoa();
-                lTelefone.Pessoa.id = Convert.ToInt32(pTel.codPessoa);
+               // lTelefone.Pessoa.id = Convert.ToInt32(pTel.codPessoa);
 
                 return dao.Editar(lTelefone);
             }

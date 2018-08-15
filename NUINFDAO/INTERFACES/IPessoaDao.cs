@@ -13,5 +13,6 @@ namespace NUINFDAO.INTERFACES
         int Editar(Pessoa pPessoa);
         bool Excluir(int idPessoa);
         Pessoa Pesquisar(Pessoa pPessoa);
+        int TotalTelefones(long idPessoa);
     }
 }

@@ -15,5 +15,7 @@ namespace NUINFREPOSITORIO.DTO
         public string emailPessoa { get; set; }
 
         public string nascPessoa { get; set; }
+
+        public IEnumerable<TelefoneDTOPersistencia> telefones { get; set; }
     }
 }

@@ -6,7 +6,7 @@ namespace NUINFDOMINIO
 {
    public class Telefone
     {
-        public int id { get; set; }
+        public long id { get; set; }
         public string ddd { get; set; }
         public string numeros { get; set; }
 

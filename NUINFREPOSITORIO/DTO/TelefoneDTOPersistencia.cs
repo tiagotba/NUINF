@@ -9,6 +9,6 @@ namespace NUINFREPOSITORIO.DTO
         public string codTel { get; set; }
         public string dddTel { get; set; }
         public string numTel { get; set; }
-        public string codPessoa { get; set; }
+      //  public string codPessoa { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace NUINFDAO.DAO
             {
                 return 0;
             }
-           
+
         }
 
         public bool Excluir(int idPessoa)
@@ -40,13 +40,19 @@ namespace NUINFDAO.DAO
 
             var pessoa = Pesquisar(lPessoa);
 
-            if (pessoa!= null)
+            if (pessoa != null)
             {
                 _nuinf_Context.Pessoas.Remove(pessoa);
+                _nuinf_Context.SaveChanges();
                 result = true;
             }
 
             return result;
+        }
+
+        public int TotalTelefones(long idPessoa)
+        {
+            return _nuinf_Context.Pessoas.Find(idPessoa).telefones.Count;
         }
 
         public IEnumerable<Pessoa> ListarTodos()
@@ -63,7 +69,8 @@ namespace NUINFDAO.DAO
         public int Salvar(Pessoa pPessoa)
         {
             _nuinf_Context.Entry(pPessoa).State = Microsoft.EntityFrameworkCore.EntityState.Added;
-            return _nuinf_Context.SaveChanges();
+             _nuinf_Context.SaveChanges();
+             return (int) pPessoa.id;
         }
     }
 }

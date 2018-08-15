@@ -13,11 +13,14 @@ namespace NUINFREPOSITORIO.Repositorios
     {
         private PessoaDao dao;
 
-        private readonly BD_Nuinf_Context _nuinf_Context;
+        private TelefoneDao telefoneDao;
+
+        private readonly BD_Nuinf_Context _nuinf_Context = new BD_Nuinf_Context();
 
         public PessoaRepositorio()
         {
             dao = new PessoaDao(_nuinf_Context);
+            telefoneDao = new TelefoneDao(_nuinf_Context);
         }
 
 
@@ -25,7 +28,7 @@ namespace NUINFREPOSITORIO.Repositorios
         {
             if (pPessoa == null || pPessoa.codPessoa == "0")
             {
-                throw new Exception("Pessoa não encontrada!");
+                return 0;
             }
             else
             {
@@ -48,15 +51,32 @@ namespace NUINFREPOSITORIO.Repositorios
         public int Salvar(PessoaDTOPersistencia pPessoa)
         {
             Pessoa lPessoa = new Pessoa();
+            int idPessoa = 0;
 
-            if (pPessoa.codPessoa != null && Convert.ToInt64(pPessoa.codPessoa) > 0)
+            if (pPessoa.codPessoa != null && Convert.ToInt64(pPessoa.codPessoa) == 0)
             {
                 lPessoa.nome = pPessoa.nomePessoa;
                 lPessoa.cpf = pPessoa.cpfPessoa;
                 lPessoa.dataNascimento = Convert.ToDateTime(pPessoa.nascPessoa);
                 lPessoa.email = pPessoa.emailPessoa;
+                lPessoa.telefones = new List<Telefone>();
+                
+              idPessoa =  dao.Salvar(lPessoa);
 
-                return dao.Salvar(lPessoa);
+                if (pPessoa.telefones != null)
+                {
+                    Telefone lTelefone;
+                    foreach (var tel in pPessoa.telefones)
+                    {
+                        lTelefone = new Telefone();
+                        lTelefone.ddd = tel.dddTel;
+                        lTelefone.numeros = tel.numTel;
+                        lTelefone.Pessoa = lPessoa;
+                        telefoneDao.Salvar(lTelefone);
+                    }
+                }
+
+                return idPessoa;
             }
             else
             {
@@ -65,6 +85,19 @@ namespace NUINFREPOSITORIO.Repositorios
                 lPessoa.cpf = pPessoa.cpfPessoa;
                 lPessoa.dataNascimento = Convert.ToDateTime(pPessoa.nascPessoa);
                 lPessoa.email = pPessoa.emailPessoa;
+
+                if (pPessoa.telefones != null)
+                {
+                    Telefone lTelefone;
+                    foreach (var tel in pPessoa.telefones)
+                    {
+                        lTelefone = new Telefone();
+                        lTelefone.ddd = tel.dddTel;
+                        lTelefone.numeros = tel.numTel;
+                        lTelefone.Pessoa = lPessoa;
+                        telefoneDao.Salvar(lTelefone);
+                    }
+                }
 
                 return dao.Editar(lPessoa);
             }
@@ -89,6 +122,9 @@ namespace NUINFREPOSITORIO.Repositorios
                 var b = (p.dataNascimento.Year * 100 + p.dataNascimento.Month) * 100 + p.dataNascimento.Day;
 
                 lPessoa.idadePessoa = ((a - b) / 10000).ToString();
+
+                // traz o total de telefones
+                lPessoa.qtdTel = dao.TotalTelefones((int)p.id).ToString();
                 lListPessoas.Add(lPessoa);
             }
 
@@ -97,7 +133,27 @@ namespace NUINFREPOSITORIO.Repositorios
 
         public PessoaDTOShow Pesquisar(PessoaDTOPersistencia pPessoa)
         {
-            throw new NotImplementedException();
+            Pessoa lPessoa = new Pessoa();
+            PessoaDTOShow lPessoaDTOShow = new PessoaDTOShow();
+            TelefoneDTOPersistencia lTelefoneDTOPersistencia = new TelefoneDTOPersistencia();
+            lPessoa.id = Convert.ToInt32(pPessoa.codPessoa);
+            lPessoa = dao.Pesquisar(lPessoa);
+
+            lPessoaDTOShow.codPessoa = lPessoa.id.ToString();
+            lPessoaDTOShow.nomePessoa = lPessoa.nome;
+            lPessoaDTOShow.cpfPessoa = lPessoa.cpf;
+            lPessoaDTOShow.emailPessoa = lPessoa.email;
+            lPessoaDTOShow.nascPessoa = lPessoa.dataNascimento.ToString();
+            lPessoaDTOShow.telefones = new List<TelefoneDTOPersistencia>();
+            foreach (var t in lPessoa.telefones)
+            {
+                lTelefoneDTOPersistencia.codTel = t.id.ToString();
+                lTelefoneDTOPersistencia.dddTel = t.ddd;
+                lTelefoneDTOPersistencia.numTel = t.numeros;
+                lPessoaDTOShow.telefones.Add(lTelefoneDTOPersistencia);
+            }
+
+            return lPessoaDTOShow;
         }
 
     }
