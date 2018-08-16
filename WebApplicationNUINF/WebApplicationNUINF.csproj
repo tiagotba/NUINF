@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\components\Pessoa\pessoa.component.ts" />
+    <None Remove="ClientApp\src\app\components\Pessoa\PessoaService.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Angular.UI.Bootstrap" Version="2.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
   </ItemGroup>
@@ -17,7 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\app\components\Pessoa\" />
+    <TypeScriptCompile Include="ClientApp\src\app\components\Pessoa\pessoa.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\components\Pessoa\PessoaService.ts" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
