@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using NUINFREPOSITORIO.InfraEstrutura;
 
@@ -19,6 +20,7 @@ namespace NUINFAPI.Controllers
             _pessoaRepositorio = pessoaRepositorio;
         }
         // GET: api/<controller>
+        [EnableCors("MyPolicy")]
         [HttpGet]
         public IEnumerable<NUINFREPOSITORIO.DTO.PessoasDTOList> Get()
         {

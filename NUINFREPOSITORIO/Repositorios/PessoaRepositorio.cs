@@ -124,7 +124,7 @@ namespace NUINFREPOSITORIO.Repositorios
                 lPessoa.idadePessoa = ((a - b) / 10000).ToString();
 
                 // traz o total de telefones
-                lPessoa.qtdTel = dao.TotalTelefones((int)p.id).ToString();
+             //   lPessoa.qtdTel = dao.TotalTelefones((int)p.id).ToString();
                 lListPessoas.Add(lPessoa);
             }
 

@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+   
+    <div class="container-fluid">
+        <div id="summary" class="panel panel-primary">
+            <div class="panel-heading"> Listagem de Pessoas</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label>Nome</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <label>Cpf</label>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <input id="pesqNome" type="text" />
+                    </div>
+                    <div class="col-sm-3">
+                        <input id="pesqCpf" type="text" />
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn btn-xs btn-primary" (click)="updateEmployee(item)">Pesquisar</button>
+                        <button class="btn btn-xs btn-primary" (click)="deleteEmployee(item.studentId)">Cadastrar</button>
+                    </div>
+                </div>
+
+                {{employeeList | json}}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th hidden="hidden">ID</th>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th>Cpf</th>
+                            <th>Idade</th>
+                            <th>Qtd Telefones</th>
+                            <th>Ações</th>
+                        </tr>
+
+                    </thead>
+                    <tbody *ngFor="let pessoa of pessoaList | async">
+                        <tr>
+                            <!--<td><input type="number" disabled="disabled" [(ngModel)]='pessoa.codPessoa' /></td>
+                <td><input type="text" [(ngModel)]='pessoa.nomePessoa' /></td>
+                <td><input type="email" [(ngModel)]='pessoa.emailPessoa' /></td>
+                <td><input type="text" [(ngModel)]='pessoa.cpfPessoa' /></td>
+                <td><input type="number" [(ngModel)]='pessoa.idadePessoa' /></td>
+                <td><input type="text" [(ngModel)]='pessoa.qtdTel' /></td>-->
+
+                            <td hidden="hidden">{{ pessoa.codPessoa }}</td>
+                            <td>{{ pessoa.nomePessoa }}</td>
+                            <td>{{ pessoa.emailPessoa }}</td>
+                            <td>{{ pessoa.cpfPessoa }}</td>
+                            <td>{{ pessoa.idadePessoa }}</td>
+                            <td>{{ pessoa.qtdTel }}</td>
+                            <td>
+                                <button class="btn btn-xs btn-primary" (click)="updateEmployee(item)">Editar</button>
+                                <button class="btn btn-xs btn-primary" (click)="deleteEmployee(item.studentId)">Deletar</button>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
