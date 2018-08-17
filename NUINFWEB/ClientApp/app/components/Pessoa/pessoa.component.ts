@@ -3,6 +3,7 @@ import 'rxjs/add/operator/catch';
 import { Observable } from "rxjs";
 import { PessoaService } from "./PessoaService";
 import { Pessoa } from "./PessoaService";
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'Pessoa',
@@ -14,9 +15,9 @@ export class PessoaComponent implements OnInit {
     public pessoaList: Observable<Pessoa[]> | undefined;
     showEditor = true;
     myName: string ;
-    employee: Pessoa;
+    pessoa: Pessoa;
     constructor(private dataService: PessoaService) {
-        this.employee = new Pessoa();
+        this.pessoa = new Pessoa();
     }
 
     ngOnInit() {
@@ -24,5 +25,15 @@ export class PessoaComponent implements OnInit {
         // console.log("You are in ngOnInit");
         this.pessoaList = this.dataService.pessoaList;
         this.dataService.getAll();
+    }
+
+    public addPessoa(item: Pessoa) {
+        let employeeId = this.dataService.addPessoa(this.pessoa);
+    }
+    public updatePessoa(item: Pessoa) {
+        this.dataService.updatePessoa(item);
+    }
+    public deletePessoa(pessoaId: number) {
+        this.dataService.removeItem(pessoaId);
     }
 }

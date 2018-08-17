@@ -60,8 +60,8 @@ namespace NUINFREPOSITORIO.Repositorios
                 lPessoa.dataNascimento = Convert.ToDateTime(pPessoa.nascPessoa);
                 lPessoa.email = pPessoa.emailPessoa;
                 lPessoa.telefones = new List<Telefone>();
-                
-              idPessoa =  dao.Salvar(lPessoa);
+
+                idPessoa = dao.Salvar(lPessoa);
 
                 if (pPessoa.telefones != null)
                 {
@@ -124,7 +124,7 @@ namespace NUINFREPOSITORIO.Repositorios
                 lPessoa.idadePessoa = ((a - b) / 10000).ToString();
 
                 // traz o total de telefones
-             //   lPessoa.qtdTel = dao.TotalTelefones((int)p.id).ToString();
+                //lPessoa.qtdTel = dao.TotalTelefones((int)p.id).ToString();
                 lListPessoas.Add(lPessoa);
             }
 
@@ -145,13 +145,18 @@ namespace NUINFREPOSITORIO.Repositorios
             lPessoaDTOShow.emailPessoa = lPessoa.email;
             lPessoaDTOShow.nascPessoa = lPessoa.dataNascimento.ToString();
             lPessoaDTOShow.telefones = new List<TelefoneDTOPersistencia>();
-            foreach (var t in lPessoa.telefones)
+            if (lPessoa.telefones != null)
             {
-                lTelefoneDTOPersistencia.codTel = t.id.ToString();
-                lTelefoneDTOPersistencia.dddTel = t.ddd;
-                lTelefoneDTOPersistencia.numTel = t.numeros;
-                lPessoaDTOShow.telefones.Add(lTelefoneDTOPersistencia);
+
+                foreach (var t in lPessoa.telefones)
+                {
+                    lTelefoneDTOPersistencia.codTel = t.id.ToString();
+                    lTelefoneDTOPersistencia.dddTel = t.ddd;
+                    lTelefoneDTOPersistencia.numTel = t.numeros;
+                    lPessoaDTOShow.telefones.Add(lTelefoneDTOPersistencia);
+                }
             }
+            
 
             return lPessoaDTOShow;
         }

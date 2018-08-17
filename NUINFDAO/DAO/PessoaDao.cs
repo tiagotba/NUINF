@@ -1,4 +1,5 @@
-﻿using NUINFDAO.CONTEXTOS;
+﻿using Microsoft.EntityFrameworkCore;
+using NUINFDAO.CONTEXTOS;
 using NUINFDAO.DOMINIOMAP;
 using NUINFDAO.INTERFACES;
 using NUINFDOMINIO;
@@ -52,7 +53,7 @@ namespace NUINFDAO.DAO
 
         public int TotalTelefones(long idPessoa)
         {
-            return _nuinf_Context.Pessoas.Find(idPessoa).telefones.Count;
+            return _nuinf_Context.Pessoas.FromSql($" select COUNT(id) total from TB_TELEFONE where Pessoaid = {0} ", idPessoa).ToListAsync().Result.Count;//FirstOrDefaultAsync(p=>p.id== idPessoa).Result.telefones.Count;//.Find(idPessoa).telefones.Count;
         }
 
         public IEnumerable<Pessoa> ListarTodos()

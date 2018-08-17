@@ -38,6 +38,71 @@ export class PessoaService {
             }, error => console.log('Could not load employee.'));
     }
 
+    public addPessoa(pessoa: Pessoa) {
+       // console.log("add Employee");
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json; charset=utf-8');
+        console.log('add Employee : ' + JSON.stringify(pessoa));
+
+
+        this.http.post(`${this.baseUrl}pessoa/`, JSON.stringify(pessoa), { headers: headers })
+            .map(response => response.json()).subscribe(data => {
+                this.dataStore.pessoaList.push(data);
+                this._pessoaList.next(Object.assign({}, this.dataStore).pessoaList);
+            }, error => console.log('Could not create Pessoa.'));
+    };
+
+    public updatePessoa(newPessoa: Pessoa) {
+        console.log("update Pessoa");
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json; charset=utf-8');
+        console.log('Update Employee : ' + JSON.stringify(newPessoa));
+
+
+        this.http.put(`${this.baseUrl}pessoa/`, JSON.stringify(newPessoa), { headers: headers })
+            .map(response => response.json()).subscribe(data => {
+                alert("hi");
+                this.dataStore.pessoaList.forEach((t, i) => {
+                    if (t.codPessoa === data.id) { this.dataStore.pessoaList[i] = data; }
+                });
+            }, error => console.log('Could not update Employee.'));
+    };
+
+    removeItem(pessoaId: number) {
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json; charset=utf-8');
+        console.log("removeItem:" + pessoaId);
+        var ans = confirm("Deseja remover o registro?  " + pessoaId);
+        if (ans)
+        {
+            this.http.delete(`${this.baseUrl}DeleteEmployee/${pessoaId}`, { headers: headers }).subscribe(response => {
+                this.dataStore.pessoaList.forEach((t, i) => {
+                    if (t.codPessoa === pessoaId) { this.dataStore.pessoaList.splice(i, 1); }
+                });
+
+                this._pessoaList.next(Object.assign({}, this.dataStore).pessoaList);
+            }, error => console.log('Não foi possivel deletar a Pessoa.'));
+        }
+        
+    };
+
+    getPessoaById(id: number) {
+        return this.http.get(this.baseUrl + "pessoa/" + id)
+            .map((response: Response) => response.json())
+            .catch(this._serverError)
+    }
+
+    private _serverError(err: any) {
+        console.log('sever errorOK:', err);  // debug  
+        if (err instanceof Response) {
+            return Observable.throw(err.json().error || 'backend server error');
+            // if you're using lite-server, use the following line  
+            // instead of the line above:  
+            //return Observable.throw(err.text() || 'backend server error');  
+        }
+        return Observable.throw(err || 'backend server error');
+    } 
+
 }
 
 export class Pessoa {
@@ -45,6 +110,7 @@ export class Pessoa {
     public nomePessoa: string;
     public emailPessoa: string;
     public cpfPessoa: string;
+    public dtNascimento: Date;
     public idadePessoa: number;
     public qtdTel: string;
 }
